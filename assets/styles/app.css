@@ -1,5 +1,9 @@
 @import "tailwindcss";
 @source not "../../public";
+@import "./variables.css";
+@import "./fonts.css";
+@import "./user/login.css";
+@import "./user/register.css";
 body {
-    background-color: lightgray;
+    background-color: var(--dark-white);
 }
