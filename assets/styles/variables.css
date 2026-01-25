@@ -1,0 +1,8 @@
+:root{
+    --primary-color: #1abc9c;
+    --secondary-color: #16a085;
+    --light-green:var(--primary-color);
+    --dark-green: var(--secondary-color);
+    --font-size-base: 16px;
+    --spacing-unit: 8px;
+}
