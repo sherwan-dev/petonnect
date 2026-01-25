@@ -6,33 +6,54 @@
 {% block body %}
 
 	<div class="registration-main">
+                {# {{dump(registrationForm.gender)}} #}
 		<div class="registration-container">
-			<div>
-				<i class="fa-solid fa-camera"></i>
-			</div>
 			<div class="flash-messages">
 				{% for flash_error in app.flashes('verify_email_error') %}
 					<div class="alert alert-danger" role="alert">{{ flash_error }}</div>
 				{% endfor %}
 			</div>
+			<h1 class="registration-title title">Register</h1>
 
 			<div class="registration-form">
-				<h1 class="registration-title title">Register</h1>
- 
-    {{ dump(registrationForm.vars.full_name) }} 
-				<div class="registration-form-content">
-					{{ form_errors(registrationForm) }}
-
-					{{ form_start(registrationForm) }}
-					{{ form_row(registrationForm.email) }}
-					{{ form_row(registrationForm.plainPassword, {
-                        label: 'Password'
-                    }) }}
-					{{ form_row(registrationForm.agreeTerms) }}
-
-					<button type="submit" class="btn">Register</button>
-					{{ form_end(registrationForm) }}
+				{{ form_start(registrationForm) }}
+				<div class="item-1">
+					{{ form_widget(registrationForm.firstName) }}
+					{{ form_widget(registrationForm.lastName) }}
 				</div>
+				<div class="item-2 gender-field"  id="registration_form_gender"> 
+					{% for genderChoice in registrationForm.gender %}
+						<div class="gender-option flex items-center rounded border border-[#ccc]">
+							<label for="{{ genderChoice.vars.id }}" class="flex items-center  cursor-pointer px-2 py-1">
+								<span class="select-none pr-2">{{ genderChoice.vars.label }}</span>
+								<input type="radio" class="cursor-pointer" id="{{ genderChoice.vars.id }}" name="{{ genderChoice.vars.full_name }}" value="{{ genderChoice.vars.value }}" required="{{ genderChoice.vars.required ? 'required' : '' }}" class="accent-blue-600"/>
+							</label>
+						</div>
+					{% endfor %}
+                    {% do registrationForm.gender.setRendered() %}
+				</div>
+				<div class="item-3 email-field">
+					{{ form_widget(registrationForm.email) }}
+				</div>
+				<div class="item-4 password-field">
+					{{ form_widget(registrationForm.plainPassword) }}
+				</div> 
+				<div class="flex items-center gap-2">
+					{{ form_widget(registrationForm.agreeTerms, {
+                        attr: { 'class': 'accent-(--dark-green) w-4 h-4' } 
+                    }) }}
+                                    {{ form_label(registrationForm.agreeTerms, null, {
+                        label_attr: { class: 'text-gray-700 pl-2 select-none w-full' }
+                    }) }}
+				</div>
+				<button type="submit" class="btn registration-btn bg-(--dark-green) hover:bg-(--light-green) cursor-pointer text-white font-bold py-2 px-4 rounded">Register</button>
+				{{ form_widget(registrationForm._token) }}
+				<div class="item-5 login-link">
+					<p>Already have an account?
+						<a href="/login" class="text-(--dark-green) hover:text-(--light-green)">Login</a>
+					</p>
+				</div>
+				{{ form_end(registrationForm) }}
 			</div>
 		</div>
 	{% endblock %}

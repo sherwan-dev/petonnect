@@ -1,0 +1,68 @@
+.registration-main {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    width: 100%;
+}
+
+.registration-container {
+    display: flex;
+    flex-direction: column;
+    padding: 0px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    background-color: #fff;
+    width: 400px;
+    max-width: 400px;
+    overflow: hidden;
+}
+
+.registration-container .flash-messages:not(:has(.alert)) {
+    display: none;
+}
+
+.registration-container .title {
+    background-color: var(--dark-green);
+    color: white;
+    text-align: center;
+    padding: 15px;
+    font-size: 1.5rem;
+    font-weight: bold;
+}
+
+.registration-container .item-1 {
+    display: flex;
+    flex-wrap: nowrap;
+    gap: 10px;
+}
+.registration-container .item-1 > input {
+    width: calc(50% - 5px);
+}
+
+.registration-form form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    padding: 10px;
+}
+
+.registration-form div input {
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 1rem;
+    padding: 5px;
+}
+
+.item-2.gender-field {
+    width: 100%;
+    display: flex;
+    gap: 5px;
+    justify-content: space-between;
+}
+ 
+.registration-form .email-field input,
+.registration-form .password-field input {
+    width: 100%;
+} 
