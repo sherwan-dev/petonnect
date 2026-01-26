@@ -75,6 +75,10 @@ Encore
     // uncomment if you're having problems with a jQuery plugin
     //.autoProvidejQuery()
     .enablePostCssLoader()
+    .configureWatchOptions(watchOptions => {
+        watchOptions.poll = 100;
+        watchOptions.aggregateTimeout = 300;
+    })
 ;
 
 module.exports = Encore.getWebpackConfig();
