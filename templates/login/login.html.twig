@@ -1,0 +1,66 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Log in!
+{% endblock %}
+
+{% block body %}
+
+	<div class="login-main">
+		<div class="login-container"> 
+			{% if app.user %}
+				<div class="mb-3">
+					You are logged in as
+					{{ app.user.userIdentifier }},
+					<a href="{{ logout_path() }}">Logout</a>
+				</div>
+			{% endif %}
+
+			<h1 class="login-title title">Sign in</h1>
+
+			<form method="post" class="login-form flex flex-col gap-4 p-2">
+			<div class="flash-messages p-2 rounded border-2 border-(--red)">
+				{% if error %}
+					<div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+				{% endif %}
+			</div>
+				<div class="item-1 email-container item">
+					<span class="icon">
+						<i class="fa-solid fa-user"></i>
+					</span>
+					<input type="email" value="{{ last_username }}" placeholder="Email" name="_username" id="username" class="form-control w-full" autocomplete="email" required autofocus>
+				</div>
+				<div class="item-2 password-container item">
+					<span class="icon">
+						<i class="fa-solid fa-lock"></i>
+					</span>
+					<input type="password" name="_password" id="password" class="form-control w-full" autocomplete="current-password" placeholder="Password" required>
+				</div>
+				<div>
+					<a href="/forgot-password" class="text-(--dark-green) hover:text-(--light-green)">Forgot your password?</a>
+				</div>
+				<input
+				type="hidden" name="_csrf_token" data-controller="csrf-protection" value="{{ csrf_token('authenticate') }}">
+
+				{#
+																				            Uncomment this section and add a remember_me option below your firewall to activate remember me functionality.
+																				            See https://symfony.com/doc/current/security/remember_me.html
+																				
+																				            <div class="checkbox mb-3">
+																				                <input type="checkbox" name="_remember_me" id="_remember_me">
+																				                <label for="_remember_me">Remember me</label>
+																				            </div>
+																				        #}
+
+				<button class="btn btn-lg btn-primary btn login-btn bg-(--dark-green) hover:bg-(--light-green) cursor-pointer text-white font-bold py-2 px-4 rounded" type="submit">
+					Sign in
+				</button>
+				<div class="item-5 register-link">
+					<p>Don't have an account?
+						<a href="/register" class="text-(--dark-green) hover:text-(--light-green)">Register</a>
+					</p>
+				</div>
+			</form>
+		</div>
+	</div>
+
+{% endblock %}
