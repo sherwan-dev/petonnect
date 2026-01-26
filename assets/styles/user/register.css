@@ -32,12 +32,8 @@
     font-weight: bold;
 }
 
-.registration-container .item-1 {
-    display: flex;
-    flex-wrap: nowrap;
-    gap: 10px;
-}
-.registration-container .item-1 > input {
+ 
+.registration-container .item-1 div > input {
     width: calc(50% - 5px);
 }
 
@@ -55,14 +51,23 @@
     padding: 5px;
 }
 
+.registration-form div input:not([type="radio"]):focus {
+    outline: none;
+    border-color: var(--dark-green);
+    box-shadow: 0 0 3px var(--dark-green);
+}
+
+.registration-form .email-field input,
+.registration-form .password-field input {
+    width: 100%;
+} 
 .item-2.gender-field {
     width: 100%;
     display: flex;
     gap: 5px;
     justify-content: space-between;
 }
- 
-.registration-form .email-field input,
-.registration-form .password-field input {
-    width: 100%;
+
+.registration-form .item-5.login-link{
+    text-align: center; 
 } 
