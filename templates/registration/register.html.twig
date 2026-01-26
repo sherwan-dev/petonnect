@@ -5,46 +5,82 @@
 
 {% block body %}
 
+	{% set isSubmitedAndInvalid = registrationForm.vars.submitted and not registrationForm.vars.valid %}
+
 	<div class="registration-main">
-                {# {{dump(registrationForm.gender)}} #}
 		<div class="registration-container">
-			<div class="flash-messages">
-				{% for flash_error in app.flashes('verify_email_error') %}
-					<div class="alert alert-danger" role="alert">{{ flash_error }}</div>
-				{% endfor %}
-			</div>
 			<h1 class="registration-title title">Register</h1>
 
 			<div class="registration-form">
-				{{ form_start(registrationForm) }}
-				<div class="item-1">
-					{{ form_widget(registrationForm.firstName) }}
-					{{ form_widget(registrationForm.lastName) }}
-				</div>
-				<div class="item-2 gender-field"  id="registration_form_gender"> 
-					{% for genderChoice in registrationForm.gender %}
-						<div class="gender-option flex items-center rounded border border-[#ccc]">
-							<label for="{{ genderChoice.vars.id }}" class="flex items-center  cursor-pointer px-2 py-1">
-								<span class="select-none pr-2">{{ genderChoice.vars.label }}</span>
-								<input type="radio" class="cursor-pointer" id="{{ genderChoice.vars.id }}" name="{{ genderChoice.vars.full_name }}" value="{{ genderChoice.vars.value }}" required="{{ genderChoice.vars.required ? 'required' : '' }}" class="accent-blue-600"/>
-							</label>
-						</div>
+
+				<div class="flash-messages p-2 rounded border-2 border-(--red)">
+					{% for flash_error in app.flashes('verify_email_error') %}
+						<div class="alert alert-danger" role="alert">{{ flash_error }}</div>
 					{% endfor %}
-                    {% do registrationForm.gender.setRendered() %}
+					{% for error in registrationForm.vars.errors %}
+						<div class="alert alert-danger" role="alert">{{ error.message }}</div>
+					{% endfor %}
 				</div>
-				<div class="item-3 email-field">
+				{{ form_start(registrationForm) }}
+				<div class="item-1 flex flex-col flex-nowrap">
+					<div class=" flex flex-row flex-nowrap gap-2.5">
+						{{ form_widget(registrationForm.firstName) }}
+						{{ form_widget(registrationForm.lastName) }}
+					</div>
+					{% if isSubmitedAndInvalid and registrationForm.lastName.vars.errors %}
+						<span class="error text-[0.85rem] text-(--red) ">{{ form_errors(registrationForm.lastName) }}</span>
+					{% endif %}
+					{% if isSubmitedAndInvalid and registrationForm.firstName.vars.errors %}
+						<span class="error text-[0.85rem] text-(--red) ">{{ form_errors(registrationForm.firstName) }}</span>
+					{% endif %}
+				</div>
+				<div class="item-2 gender-field  flex flex-col" id="registration_form_gender">
+					<div class="w-full flex justify-between gap-1.5">
+						{% for genderChoice in registrationForm.gender %}
+							<div class="gender-option flex items-center rounded border border-[#ccc]">
+								<label for="{{ genderChoice.vars.id }}" class="flex items-center  cursor-pointer px-2 py-1">
+									<span class="select-none pr-2">{{ genderChoice.vars.label }}</span>
+									<input type="radio" class="cursor-pointer" id="{{ genderChoice.vars.id }}" name="{{ genderChoice.vars.full_name }}" value="{{ genderChoice.vars.value }}" required="{{ genderChoice.vars.required ? 'required' : '' }}" class="accent-blue-600"/>
+								</label>
+							</div>
+						{% endfor %}
+					</div>
+					{% if isSubmitedAndInvalid and registrationForm.gender.vars.errors %}
+						<span class="error text-[0.85rem] text-(--red)">{{ form_errors(registrationForm.gender) }}</span>
+					{% endif %}
+					{% do registrationForm.gender.setRendered() %}
+				</div>
+				<div class="item-3 email-field flex flex-col gap-0">
 					{{ form_widget(registrationForm.email) }}
+					{% if isSubmitedAndInvalid and registrationForm.email.vars.errors %}
+						<span class="error text-[0.85rem] text-(--red)">{{ form_errors(registrationForm.email) }}</span>
+					{% endif %}
 				</div>
 				<div class="item-4 password-field">
-					{{ form_widget(registrationForm.plainPassword) }}
-				</div> 
-				<div class="flex items-center gap-2">
-					{{ form_widget(registrationForm.agreeTerms, {
+					<div class="password-input-wrapper relative">
+						{{ form_widget(registrationForm.plainPassword, {
+						attr: { 'class': 'password-input', 'autocomplete': 'new-password' }
+					}) }}
+						<i class="fa-solid fa-eye-slash password-toggle-icon absolute cursor-pointer   text-(--light-green)" 
+						id="togglePasswordIcon" style="right: 10px; top: 50%; transform: translateY(-50%);"></i>
+					</div>
+					{% if isSubmitedAndInvalid and registrationForm.plainPassword.vars.errors %}
+						<span class="error text-[0.85rem] text-(--red)">{{ form_errors(registrationForm.plainPassword) }}</span>
+					{% endif %}
+				</div>
+
+				<div class="flex gap-0 flex-col">
+					<div class="flex items-center">
+						{{ form_widget(registrationForm.agreeTerms, {
                         attr: { 'class': 'accent-(--dark-green) w-4 h-4' } 
                     }) }}
-                                    {{ form_label(registrationForm.agreeTerms, null, {
+						{{ form_label(registrationForm.agreeTerms, null, {
                         label_attr: { class: 'text-gray-700 pl-2 select-none w-full' }
                     }) }}
+					</div>
+					{% if isSubmitedAndInvalid and registrationForm.agreeTerms.vars.errors %}
+						<span class="error text-[0.85rem] text-(--red)">{{ form_errors(registrationForm.agreeTerms) }}</span>
+					{% endif %}
 				</div>
 				<button type="submit" class="btn registration-btn bg-(--dark-green) hover:bg-(--light-green) cursor-pointer text-white font-bold py-2 px-4 rounded">Register</button>
 				{{ form_widget(registrationForm._token) }}
