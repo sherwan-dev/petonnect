@@ -15,23 +15,34 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints\IsTrue;
 use Symfony\Component\Validator\Constraints\Length;
 use Symfony\Component\Validator\Constraints\NotBlank;
+use Symfony\Component\Validator\Constraints\Email as EmailConstraint;
 
 class RegistrationFormType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('firstName', TextType::class, [ 
+            ->add('firstName', TextType::class, [
                 'attr' => [
                     'placeholder' => 'First name',
                 ],
                 'required' => true,
+                'constraints' => [
+                    new NotBlank(
+                        message: 'Please enter your first name.'
+                    )
+                ],
             ])
-            ->add('lastName', TextType::class, [ 
+            ->add('lastName', TextType::class, [
                 'attr' => [
                     'placeholder' => 'Last name',
                 ],
                 'required' => true,
+                'constraints' => [
+                    new NotBlank(
+                        message: 'Please enter your last name.' 
+                    )
+                ],
             ])
             ->add('gender', ChoiceType::class, [
                 'choices' => [
@@ -48,6 +59,14 @@ class RegistrationFormType extends AbstractType
                 'attr' => [
                     'placeholder' => 'Email address',
                 ],
+                'constraints' => [
+                    new NotBlank(
+                        message: 'Please enter your email address.'
+                    ),
+                    new EmailConstraint(
+                        message: 'Please enter a valid email address.'
+                    ),
+                ],
                 'required' => true,
             ])
             ->add('agreeTerms', CheckboxType::class, [
@@ -60,8 +79,10 @@ class RegistrationFormType extends AbstractType
                 // instead of being set onto the object directly,
                 // this is read and encoded in the controller
                 'mapped' => false,
-                'attr' => ['autocomplete' => 'new-password', 
-                           'placeholder' => 'Password'],
+                'attr' => [
+                    'autocomplete' => 'new-password',
+                    'placeholder' => 'Password'
+                ],
                 'constraints' => [
                     new NotBlank(
                         message: 'Please enter a password'
