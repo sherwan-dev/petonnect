@@ -12,11 +12,20 @@
 @import "./user/register.css";
 
 body {
-    background-color: var(--dark-white);
+    background-color: var(--light-white);
     font-family: "Inter"; 
     font-style: normal;
 }
 
-* {
-    outline: 0.0001rem solid red;
+input[type="radio"] {
+  accent-color: var(--dark-green);  
 }
+input[type="radio"]:hover {
+  accent-color: var(--light-green);  
+}
+
+
+
+/* * {
+    outline: 0.0001rem solid red;
+}  */
