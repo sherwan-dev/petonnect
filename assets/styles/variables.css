@@ -1,8 +1,11 @@
 :root{
     --primary-color: #1abc9c;
     --secondary-color: #16a085;
+    --red: #e74c3c;
     --light-green:var(--primary-color);
     --dark-green: var(--secondary-color);
+    --dark-white: #efeeed;
+    --light-white: #f0f2f5;
     --font-size-base: 16px;
     --spacing-unit: 8px;
 }
