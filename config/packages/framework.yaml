@@ -3,7 +3,13 @@ framework:
     secret: '%env(APP_SECRET)%'
 
     # Note that the session will be started ONLY if you read or write from it.
-    session: true
+    session:
+        enabled: true
+        cookie_secure: auto
+        cookie_samesite: lax
+        name: 'PETONNECTSESSID'
+        save_path: '%kernel.project_dir%/var/sessions'
+        cookie_lifetime: 0 # Until the browser is closed
 
     #esi: true
     #fragments: true
