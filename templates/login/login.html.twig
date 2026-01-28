@@ -18,7 +18,7 @@
 			<h1 class="login-title title">Sign in</h1>
 
 			<form method="post" class="login-form flex flex-col gap-4 p-2">
-			{% for message in app.flashes('successLogin') %}
+			{% for message in app.flashes('success') %}
 				<div class="border-(--light-green) border-2 p-2 rounded">
 					{{ message }} 
 				</div>
