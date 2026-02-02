@@ -7,7 +7,7 @@
 
 	{% set isSubmitedAndInvalid = registrationForm.vars.submitted and not registrationForm.vars.valid %}
 
-	<div class="registration-main">
+	<div class="registration-main registration-page">
 		<div class="registration-container">
 			<h1 class="registration-title title">Register</h1>
 
@@ -69,13 +69,13 @@
 					{% endif %}
 				</div>
 
-				<div class="flex gap-0 flex-col">
+				<div class="flex gap-0 flex-col lgeal-terms-item">
 					<div class="flex items-center">
 						{{ form_widget(registrationForm.agreeTerms, {
                         attr: { 'class': 'accent-(--dark-green) w-4 h-4' } 
                     }) }}
 						{{ form_label(registrationForm.agreeTerms, null, {
-                        label_attr: { class: 'text-gray-700 pl-2 select-none w-full' }
+                        label_attr: { class: 'text-gray-700 pl-2 select-none w-full legal-terms-link' }
                     }) }}
 					</div>
 					{% if isSubmitedAndInvalid and registrationForm.agreeTerms.vars.errors %}
