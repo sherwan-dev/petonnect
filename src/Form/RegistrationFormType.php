@@ -40,7 +40,7 @@ class RegistrationFormType extends AbstractType
                 'required' => true,
                 'constraints' => [
                     new NotBlank(
-                        message: 'Please enter your last name.' 
+                        message: 'Please enter your last name.'
                     )
                 ],
             ])
@@ -71,6 +71,8 @@ class RegistrationFormType extends AbstractType
             ])
             ->add('agreeTerms', CheckboxType::class, [
                 'mapped' => false,
+                'label' => 'I accept <a href="/legal">terms and conditions</a>',
+                'label_html' => true, 
                 'constraints' => [
                     new IsTrue(message: 'You should agree to our terms.'),
                 ],
