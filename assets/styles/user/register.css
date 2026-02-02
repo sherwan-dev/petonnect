@@ -71,3 +71,13 @@
 .registration-form .item-5.login-link{
     text-align: center; 
 } 
+
+.registration-page  .legal-terms-link a {
+    color: var(--dark-green);
+    text-decoration: underline;
+}
+
+.registration-page .legal-terms-link a:hover{
+    color: var(--light-green);
+    text-decoration: underline;
+}
