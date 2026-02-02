@@ -1,0 +1,50 @@
+{% block nav_bar %}
+	{% if app.user %}
+		<header class="sticky top-0 z-50 w-full bg-[#2e2b26] border-b border-white/10 px-6 py-3">
+			<div class="max-w-360 mx-auto flex items-center justify-between gap-8">
+				<div class="flex items-center ">
+					<div class="bg-primary">
+						<a href="{{ path('app_home') }}" class="flex items-center justify-center gap-3 shrink-0">
+							<img src="{{ asset('assets/icon/main_logo.svg') }}" alt="Logo" class="w-8 h-8"/>
+							<h2 class="text-white text-xl font-bold leading-tight tracking-tight hidden lg:block">Petonnect</h2>
+						</a>
+					</div>
+				</div>
+				<div class="flex-1 max-w-2xl px-4">
+					<label class="flex flex-col w-full h-11">
+						<div class="flex w-full flex-1 items-stretch rounded-full h-full bg-white/5 border border-white/10 hover:border-(--light-white)/50 transition-colors focus-within:border-(--light-white) focus-within:ring-1 focus-within:ring-(--light-white)">
+							<div class="text-white/40 flex items-center justify-center pl-4 rounded-l-full border-r-0">
+								<span class="material-symbols-outlined">
+									<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-search-icon lucide-search"><path d="m21 21-4.34-4.34"/><circle cx="11" cy="11" r="8"/></svg>
+								</span>
+							</div>
+							<input id="global-search-input" class="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-full text-white focus:outline-0 focus:ring-0 border-none bg-transparent h-full placeholder:text-white/30 px-4 rounded-l-none border-l-0 pl-2 text-base font-normal leading-normal" placeholder="Search ..." value=""/>
+							<div class="hidden sm:flex items-center pr-4"></div>
+						</div>
+					</label>
+				</div>
+				<div class="flex items-center gap-4 shrink-0">
+					<div class="flex items-center gap-1 sm:gap-2 border-r border-white/10 pr-4 ">
+						<button class="flex items-center justify-center rounded-full size-10 hover:bg-white/10 text-white/70 hover:text-(--light-white) transition-colors cursor-pointer"> 
+							<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-bell-icon lucide-bell"><path d="M10.268 21a2 2 0 0 0 3.464 0"/><path d="M3.262 15.326A1 1 0 0 0 4 17h16a1 1 0 0 0 .74-1.673C19.41 13.956 18 12.499 18 8A6 6 0 0 0 6 8c0 4.499-1.411 5.956-2.738 7.326"/></svg>
+						</button>
+					</div>
+					<button class="flex items-center gap-3 pl-2 py-1.5 pr-3 rounded-full hover:bg-white/10 transition-all group cursor-pointer">
+						<div class="relative">
+							<div class="size-9 rounded-full bg-center bg-cover border-2 border-transparent group-hover:border-(--light-white) transition-colors flex items-center justify-center" data-alt="User profile avatar with a professional smile">
+								<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-user-icon lucide-user"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+							</div>
+							<div class="absolute bottom-0 right-0 size-3 bg-green-500 border-2 border-[#181811] rounded-full"></div>
+						</div>
+						<div class="hidden md:flex flex-col items-start">
+							<span class="text-white text-sm font-semibold">John Doe</span>
+						</div>
+						<span class="material-symbols-outlined text-white/40 group-hover:text-white transition-colors">
+							<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-chevron-down-icon lucide-chevron-down"><path d="m6 9 6 6 6-6"/></svg>
+						</span>
+					</button>
+				</div>
+			</div>
+		</header>
+	{% endif %}
+{% endblock %}
