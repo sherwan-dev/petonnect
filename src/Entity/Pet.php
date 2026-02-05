@@ -16,9 +16,8 @@ class Pet
 
     #[ORM\Column(length: 255)]
     private ?string $name = null;
-
-    #[ORM\ManyToOne(inversedBy: 'pets')]
-    #[ORM\JoinColumn(nullable: false)]
+ 
+    #[ORM\Column(enumType: PetGender::class)]
     private ?PetGender $gender = null;
 
     #[ORM\ManyToOne(inversedBy: 'pets')]
