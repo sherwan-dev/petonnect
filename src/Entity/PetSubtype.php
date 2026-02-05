@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\PetSubtypeRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: PetSubtypeRepository::class)]
@@ -19,6 +21,17 @@ class PetSubtype
     #[ORM\ManyToOne(inversedBy: 'subtypes')]
     #[ORM\JoinColumn(nullable: false)]
     private ?PetType $petType = null;
+
+    /**
+     * @var Collection<int, Pet>
+     */
+    #[ORM\OneToMany(targetEntity: Pet::class, mappedBy: 'subtype')]
+    private Collection $pets;
+
+    public function __construct()
+    {
+        $this->pets = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -45,6 +58,36 @@ class PetSubtype
     public function setPetType(?PetType $petType): static
     {
         $this->petType = $petType;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Pet>
+     */
+    public function getPets(): Collection
+    {
+        return $this->pets;
+    }
+
+    public function addPet(Pet $pet): static
+    {
+        if (!$this->pets->contains($pet)) {
+            $this->pets->add($pet);
+            $pet->setSubtype($this);
+        }
+
+        return $this;
+    }
+
+    public function removePet(Pet $pet): static
+    {
+        if ($this->pets->removeElement($pet)) {
+            // set the owning side to null (unless already changed)
+            if ($pet->getSubtype() === $this) {
+                $pet->setSubtype(null);
+            }
+        }
 
         return $this;
     }

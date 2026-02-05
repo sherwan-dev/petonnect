@@ -24,6 +24,14 @@ class Pet
     #[ORM\JoinColumn(nullable: false)]
     private ?User $owner = null;
 
+    #[ORM\ManyToOne(inversedBy: 'pets')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?PetType $type = null;
+
+    #[ORM\ManyToOne(inversedBy: 'pets')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?PetSubtype $subtype = null;
+
 
     public function getId(): ?int
     {
@@ -62,6 +70,30 @@ class Pet
     public function setOwner(?User $owner): static
     {
         $this->owner = $owner;
+
+        return $this;
+    }
+
+    public function getType(): ?PetType
+    {
+        return $this->type;
+    }
+
+    public function setType(?PetType $type): static
+    {
+        $this->type = $type;
+
+        return $this;
+    }
+
+    public function getSubtype(): ?PetSubtype
+    {
+        return $this->subtype;
+    }
+
+    public function setSubtype(?PetSubtype $subtype): static
+    {
+        $this->subtype = $subtype;
 
         return $this;
     }

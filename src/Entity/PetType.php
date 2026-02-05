@@ -24,9 +24,16 @@ class PetType
     #[ORM\OneToMany(targetEntity: PetSubtype::class, mappedBy: 'petType')]
     private Collection $subtypes;
 
+    /**
+     * @var Collection<int, Pet>
+     */
+    #[ORM\OneToMany(targetEntity: Pet::class, mappedBy: 'type')]
+    private Collection $pets;
+
     public function __construct()
     {
         $this->subtypes = new ArrayCollection();
+        $this->pets = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -70,6 +77,36 @@ class PetType
             // set the owning side to null (unless already changed)
             if ($subtype->getPetType() === $this) {
                 $subtype->setPetType(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Pet>
+     */
+    public function getPets(): Collection
+    {
+        return $this->pets;
+    }
+
+    public function addPet(Pet $pet): static
+    {
+        if (!$this->pets->contains($pet)) {
+            $this->pets->add($pet);
+            $pet->setType($this);
+        }
+
+        return $this;
+    }
+
+    public function removePet(Pet $pet): static
+    {
+        if ($this->pets->removeElement($pet)) {
+            // set the owning side to null (unless already changed)
+            if ($pet->getType() === $this) {
+                $pet->setType(null);
             }
         }
 
