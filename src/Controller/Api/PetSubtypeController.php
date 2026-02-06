@@ -33,14 +33,5 @@ final class PetSubtypeController extends AbstractController
         );
  
         return JsonResponse::fromJsonString($jsonContent);
-
-        // return $this->json([
-        //     'message' => 'Welcome to your new controller!',
-        //     'path' => 'src/Controller/Api/PetSubtypeController.php',
-        //     'petSubtypes' => $petType,
-        // ], Response::HTTP_OK, [], [
-        //     AbstractObjectNormalizer::ENABLE_MAX_DEPTH => true,
-        //     "test" => ['pets']
-        // ]);
     }
 }
