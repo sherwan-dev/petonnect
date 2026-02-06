@@ -6,6 +6,7 @@ use App\Repository\PetTypeRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Attribute\Groups;
 
 #[ORM\Entity(repositoryClass: PetTypeRepository::class)]
 class PetType
@@ -13,21 +14,25 @@ class PetType
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
+    #[Groups(['petType:read'])]
     private ?int $id = null;
 
     #[ORM\Column(length: 150)]
+    #[Groups(['petType:read'])]
     private ?string $name = null;
 
     /**
      * @var Collection<int, PetSubtype>
      */
     #[ORM\OneToMany(targetEntity: PetSubtype::class, mappedBy: 'petType')]
+    #[Groups(['petType:read'])]
     private Collection $subtypes;
 
     /**
      * @var Collection<int, Pet>
      */
     #[ORM\OneToMany(targetEntity: Pet::class, mappedBy: 'type')]
+    #[Groups(['petType:read'])]
     private Collection $pets;
 
     public function __construct()
