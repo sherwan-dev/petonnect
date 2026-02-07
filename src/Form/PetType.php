@@ -17,6 +17,8 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 
 class PetType extends AbstractType
 {
+    public $selectorClasses = 'form-select-custom cursor-pointer w-full pl-12 pr-10 py-3.5 bg-gray-50 border border-gray-200 rounded-lg text-gray-900 focus:ring-2 focus:ring-(--green-300)/20 focus:border-(--green-300) transition-all outline-none appearance-none';
+
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
@@ -34,9 +36,9 @@ class PetType extends AbstractType
             ])->add('type', EntityType::class, [
                     'class' => PetTypeEntity::class,
                     'choice_label' => 'name',
-                    'placeholder' => 'Select a type*',
+                    'placeholder' => 'Select*',
                     'attr' => [
-                        'class' => 'form-select-custom cursor-pointer w-full pl-12 pr-10 py-3.5 bg-gray-50 border border-gray-200 rounded-lg text-gray-900  focus:ring-2 focus:ring-(--green-300)/20 focus:border-(--green-300) transition-all outline-none appearance-none',
+                        'class' => $this->selectorClasses,
                         'data-controller' => 'pet-type',
                         'data-pet-type-target' => 'type',
                         'data-action' => 'change->pet-type#onTypeChange',
@@ -48,6 +50,7 @@ class PetType extends AbstractType
                 'placeholder' => 'Select*',
                 'choices' => [],
                 'attr' => [
+                    'class' => $this->selectorClasses,
                     'data-pet-type-target' => 'subtype',
                 ],
             ])->add('save', SubmitType::class, [
