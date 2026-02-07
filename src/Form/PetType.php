@@ -12,26 +12,49 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use App\Entity\PetType as PetTypeEntity;
 use App\Entity\PetSubtype;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 
 class PetType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('name')
+            ->add('name', TextType::class, [
+                'label' => 'Pet Name',
+                'attr' => [
+                    'class' => 'form-control'
+                ],
+            ])
             ->add('gender', EnumType::class, [
                 'class' => PetGender::class,
-                'choice_label' => 'name',
-            ])            ->add('type', EntityType::class, [
-                'class' => PetTypeEntity::class,
-                'choice_label' => 'name', // or whatever field makes sense
-                'placeholder' => 'Choose a type',
-            ])
+                'expanded' => true,
+                'multiple' => false,
+                'data' => PetGender::MALE,
+            ])->add('type', EntityType::class, [
+                    'class' => PetTypeEntity::class,
+                    'choice_label' => 'name',
+                    'placeholder' => 'Select a type*',
+                    'attr' => [
+                        'class' => 'form-select-custom cursor-pointer w-full pl-12 pr-10 py-3.5 bg-gray-50 border border-gray-200 rounded-lg text-gray-900  focus:ring-2 focus:ring-(--green-300)/20 focus:border-(--green-300) transition-all outline-none appearance-none',
+                        'data-controller' => 'pet-type',
+                        'data-pet-type-target' => 'type',
+                        'data-action' => 'change->pet-type#onTypeChange',
+                    ],
+                ])
             ->add('subtype', EntityType::class, [
                 'class' => PetSubtype::class,
                 'choice_label' => 'name',
-                'placeholder' => 'Choose a subtype',
-            ]);
+                'placeholder' => 'Select*',
+                'choices' => [],
+                'attr' => [
+                    'data-pet-type-target' => 'subtype',
+                ],
+            ])->add('save', SubmitType::class, [
+                    'label' => 'Save',
+                    'attr' => ['class' => 'btn btn-primary'],
+                ]);
+        ;
         ;
     }
 
