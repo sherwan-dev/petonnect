@@ -25,6 +25,18 @@ input[type="radio"]:hover {
 }
 
 
+.form-control {
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 1rem;
+    padding: 5px;
+}
+
+.form-control:focus {
+    outline: none;
+    border-color: var(--dark-green);
+    box-shadow: 0 0 3px var(--dark-green);
+}
 
 /* * {
     outline: 0.0001rem solid red;
