@@ -8,4 +8,15 @@
     --light-white: #f0f2f5;
     --font-size-base: 16px;
     --spacing-unit: 8px;
+
+    --green-100: #e0f7f4;
+    --green-200: #b2f0d9;
+    --green-300: #80e7be;
+    --green-400: #4ddca3;
+    --green-500: #1abc9c;
+    --green-600: #16a085;
+    --green-700: #12806b;
+    --green-800: #0d604f;
+    --green-900: #082f34;
+    /* --test: #1bbb9b; */
 }
