@@ -39,7 +39,6 @@ class PetType extends AbstractType
                     'placeholder' => 'Select*',
                     'attr' => [
                         'class' => $this->selectorClasses,
-                        'data-controller' => 'pet-type',
                         'data-pet-type-target' => 'type',
                         'data-action' => 'change->pet-type#onTypeChange',
                     ],
@@ -57,8 +56,6 @@ class PetType extends AbstractType
                     'label' => 'Save',
                     'attr' => ['class' => 'btn btn-primary'],
                 ]);
-        ;
-        ;
     }
 
     public function configureOptions(OptionsResolver $resolver): void
