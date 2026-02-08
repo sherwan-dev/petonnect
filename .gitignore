@@ -20,3 +20,9 @@
 npm-debug.log
 yarn-error.log
 ###< symfony/webpack-encore-bundle ###
+
+###> own
+.env.*
+!.env
+/design/
+###< own 
