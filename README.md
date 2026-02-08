@@ -1,4 +1,4 @@
-# Petonnect
+## Petonnect
 Your pet's social life, organized.
 
 ## Installation
@@ -12,7 +12,9 @@ Your pet's social life, organized.
 
 ### Install dependencies
 ```
-composer install 
+composer install
+```
+```
 npm install
 ``` 
 
@@ -42,3 +44,11 @@ bin/console doctrine:schema:create
 
 ### Configure the mailer(MAILER_DSN) for registration & email verification:
 For example: mailpit (using docker-image: axllent/mailpit:latest)
+
+
+### Start server
+```
+symfony server:start
+```
+
+### Happy coding!
