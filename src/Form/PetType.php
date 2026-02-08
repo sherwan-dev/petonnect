@@ -14,18 +14,25 @@ use App\Entity\PetType as PetTypeEntity;
 use App\Entity\PetSubtype;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Validator\Constraints\Length;
+use Symfony\Component\Validator\Constraints\NotBlank;
 
 class PetType extends AbstractType
 {
     public $selectorClasses = 'form-select-custom cursor-pointer w-full pl-12 pr-10 py-3.5 bg-gray-50 border border-gray-200 rounded-lg text-gray-900 focus:ring-2 focus:ring-(--green-300)/20 focus:border-(--green-300) transition-all outline-none appearance-none';
-
+    public $textClasses = 'w-full pl-12 pr-4 py-3.5 bg-gray-50 border border-gray-200 rounded-lg text-gray-900 focus:ring-2 focus:ring-(--green-300)/20 focus:border-(--green-300) transition-all outline-none placeholder:text-gray-400';
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
             ->add('name', TextType::class, [
                 'label' => 'Pet Name',
                 'attr' => [
-                    'class' => 'form-control'
+                    'class' =>$this->textClasses
+                ],
+                'constraints' => [
+                    new NotBlank(
+                        message: 'Please enter name.'
+                    )
                 ],
             ])
             ->add('gender', EnumType::class, [
@@ -47,15 +54,11 @@ class PetType extends AbstractType
                 'class' => PetSubtype::class,
                 'choice_label' => 'name',
                 'placeholder' => 'Select*',
-                'choices' => [],
                 'attr' => [
                     'class' => $this->selectorClasses,
                     'data-pet-type-target' => 'subtype',
                 ],
-            ])->add('save', SubmitType::class, [
-                    'label' => 'Save',
-                    'attr' => ['class' => 'btn btn-primary'],
-                ]);
+            ]);
     }
 
     public function configureOptions(OptionsResolver $resolver): void
