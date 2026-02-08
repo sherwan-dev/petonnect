@@ -11,7 +11,6 @@ export default class extends Controller {
         const typeId = this.typeTarget.value;
 
         this.resetSubtype();
-        console.log(typeId);
 
         if (!typeId) {
             return;
