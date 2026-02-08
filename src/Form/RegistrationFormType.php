@@ -30,6 +30,10 @@ class RegistrationFormType extends AbstractType
                 'constraints' => [
                     new NotBlank(
                         message: 'Please enter your first name.'
+                    ),
+                    new Length(
+                        max: 255,
+                        maxMessage: 'first name cannot be longer than {{ limit }} characters.'
                     )
                 ],
             ])
@@ -41,6 +45,10 @@ class RegistrationFormType extends AbstractType
                 'constraints' => [
                     new NotBlank(
                         message: 'Please enter your last name.'
+                    ),
+                    new Length(
+                        max: 255,
+                        maxMessage: 'first name cannot be longer than {{ limit }} characters.'
                     )
                 ],
             ])
@@ -50,8 +58,8 @@ class RegistrationFormType extends AbstractType
                     'Female' => Gender::FEMALE,
                     'Diverse' => Gender::DIVERSE,
                 ],
-                'expanded' => true,   // radios instead of <select>
-                'multiple' => false,  // one choice only
+                'expanded' => true,    
+                'multiple' => false,  
                 'required' => true,
                 'label' => 'Gender',
             ])
@@ -72,14 +80,12 @@ class RegistrationFormType extends AbstractType
             ->add('agreeTerms', CheckboxType::class, [
                 'mapped' => false,
                 'label' => 'I accept <a href="/legal">terms and conditions</a>',
-                'label_html' => true, 
+                'label_html' => true,
                 'constraints' => [
                     new IsTrue(message: 'You should agree to our terms.'),
                 ],
             ])
             ->add('plainPassword', PasswordType::class, [
-                // instead of being set onto the object directly,
-                // this is read and encoded in the controller
                 'mapped' => false,
                 'attr' => [
                     'autocomplete' => 'new-password',
@@ -93,7 +99,7 @@ class RegistrationFormType extends AbstractType
                         min: 6,
                         minMessage: 'Your password should be at least {{ limit }} characters',
                         // max length allowed by Symfony for security reasons
-                        max: 4096,
+                        max: "255",
                     ),
                 ],
             ])
