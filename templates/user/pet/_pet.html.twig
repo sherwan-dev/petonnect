@@ -1,4 +1,4 @@
-{% block pet %}
+{% block pet_block %}
 	<div class="relative w-full max-w-[320px] bg-white dark:bg-zinc-900 rounded-lg shadow-xl overflow-hidden border border-gray-100 dark:border-zinc-800">
 		<div class="h-40 bg-[#2e2b26] dark:opacity-80"></div>
 		<div class="bg-white dark:bg-zinc-900 px-6 pt-20 pb-10 flex flex-col items-center">
@@ -8,7 +8,7 @@
 				</div>
 			</div>
 			<div class="mt-4">
-				<h1 class="font-display text-2xl text-gray-900 dark:text-gray-100">Test</h1>
+				<h1 class="font-display text-2xl text-gray-900 dark:text-gray-100">{{pet.name}}</h1>
 			</div>
 			<div class="flex items-center gap-6 mt-6">
 				<button aria-label="Notifications" class="text-icon-gray dark:text-gray-400 hover:opacity-80 transition-opacity">
