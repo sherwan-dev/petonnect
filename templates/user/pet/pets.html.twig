@@ -9,10 +9,18 @@
 				<a href="{{ path('app_pet_new') }}" class="btn btn-lg btn-primary btn login-btn bg-(--dark-green) hover:bg-(--light-green) cursor-pointer text-white font-bold py-2 px-4 rounded">Add Pet</a>
 			</div>
 		</div>
+		{% for message in app.flashes('success') %}
+			<div class="bg-green-50 border-l-4 border-green-500 p-4 mb-6 rounded shadow-sm text-green-700">
+				<div class="flex items-center">
+					<i class="fa-solid fa-circle-check mr-2"></i>
+					<span>{{ message }}</span>
+				</div>
+			</div>
+		{% endfor %}
 		<div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
 			{% if pets is defined and pets is not empty %}
 				{% for pet in pets %}
-					{% include 'user/_pet.html.twig' with {'pet': pet} %}
+					{% include 'user/pet/_pet.html.twig' with {'pet': pet} %}
 				{% endfor %}
 			{% else %}
 				<p class="text-gray-600 dark:text-gray-400">You have no pets registered.</p>
