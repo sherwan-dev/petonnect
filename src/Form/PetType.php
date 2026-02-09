@@ -16,6 +16,9 @@ use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Validator\Constraints\Length;
 use Symfony\Component\Validator\Constraints\NotBlank;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
+use Symfony\Component\Validator\Constraints as Assert;
+
 
 class PetType extends AbstractType
 {
@@ -27,7 +30,7 @@ class PetType extends AbstractType
             ->add('name', TextType::class, [
                 'label' => 'Pet Name',
                 'attr' => [
-                    'class' =>$this->textClasses
+                    'class' => $this->textClasses
                 ],
                 'constraints' => [
                     new NotBlank(
@@ -62,7 +65,21 @@ class PetType extends AbstractType
                     'class' => $this->selectorClasses,
                     'data-pet-type-target' => 'subtype',
                 ],
-            ]);
+            ])
+            ->add('profilePicture', FileType::class, [
+                'label' => 'Profile Picture',
+                'mapped' => false,
+                'required' => false,
+                'constraints' => [
+                    new Assert\File(
+                        maxSize: '1024k',
+                        extensions: ['png', 'jpg', 'jpeg', ''],
+                        extensionsMessage: 'Please upload a valid picture!',
+                    )
+                ],
+            ])
+
+        ;
     }
 
     public function configureOptions(OptionsResolver $resolver): void

@@ -12,7 +12,7 @@ use App\Entity\Pet;
 use Symfony\Component\HttpFoundation\Request;
 use Doctrine\ORM\EntityManagerInterface;
 use App\Repository\PetRepository;
-
+use App\Service\FileUploader;
 class PetController extends AbstractController
 {
 
@@ -38,12 +38,20 @@ class PetController extends AbstractController
     public function createPet(
         Request $request,
         #[CurrentUser] ?User $user,
-        EntityManagerInterface $entityManager
+        EntityManagerInterface $entityManager,
+        FileUploader $fileUploader
     ): Response {
         $pet = new Pet();
         $form = $this->createForm(PetType::class, $pet);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
+
+            $profilePictureFile = $form->get('profilePicture')->getData();
+            if ($profilePictureFile) {
+                $profilePictureFileName = $fileUploader->upload($profilePictureFile);
+                $pet->setProfilePictureFileName($profilePictureFileName);
+            }
+
             $pet->setOwner($this->getUser());
             $entityManager->persist($pet);
             $entityManager->flush();

@@ -32,6 +32,9 @@ class Pet
     #[ORM\JoinColumn(nullable: false)]
     private ?PetSubtype $subtype = null;
 
+    #[ORM\Column(type: 'string')]
+    private string $profilePictureFileName;
+
 
     public function getId(): ?int
     {
@@ -94,6 +97,18 @@ class Pet
     public function setSubtype(?PetSubtype $subtype): static
     {
         $this->subtype = $subtype;
+
+        return $this;
+    }
+
+        public function getProfilePictureFileName(): string
+    {
+        return $this->profilePictureFileName;
+    }
+
+    public function setProfilePictureFileName(string $profilePictureFileName): self
+    {
+        $this->profilePictureFileName = $profilePictureFileName;
 
         return $this;
     }
