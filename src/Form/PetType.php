@@ -32,6 +32,10 @@ class PetType extends AbstractType
                 'constraints' => [
                     new NotBlank(
                         message: 'Please enter name.'
+                    ),
+                    new Length(
+                        max: 255,
+                        maxMessage: 'Name cannot be longer than {{ limit }} characters.'
                     )
                 ],
             ])
