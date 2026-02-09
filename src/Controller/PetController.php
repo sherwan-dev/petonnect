@@ -4,45 +4,56 @@ namespace App\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\Attribute\Route; 
+use Symfony\Component\Routing\Attribute\Route;
 use App\Entity\User;
 use Symfony\Component\Security\Http\Attribute\CurrentUser;
 use App\Form\PetType;
 use App\Entity\Pet;
 use Symfony\Component\HttpFoundation\Request;
 use Doctrine\ORM\EntityManagerInterface;
+use App\Repository\PetRepository;
 
 class PetController extends AbstractController
 {
 
     #[Route(path: '/pet', name: 'app_pet')]
-    public function petsIndex(#[CurrentUser] ?User $user): Response
-    { 
-        return $this->render('user/pet/pets.html.twig');
-    } 
+    public function petsIndex(
+        #[CurrentUser] ?User $user,
+        PetRepository $petRepository
+    ): Response {
+        if (!$user) {
+            throw $this->createAccessDeniedException();
+        }
+
+        $pets = $petRepository->findBy([
+            'owner' => $user,
+        ]);
+
+        return $this->render('user/pet/pets.html.twig', [
+            'pets' => $pets,
+        ]);
+    }
 
     #[Route(path: '/pet/new', name: 'app_pet_new')]
     public function createPet(
-        Request $request, 
+        Request $request,
         #[CurrentUser] ?User $user,
-        EntityManagerInterface $entityManager): Response
-    {
+        EntityManagerInterface $entityManager
+    ): Response {
         $pet = new Pet();
-        $form = $this->createForm(PetType::class, $pet, [
-            'attr' => [
-                'class' => 'flex flex-col gap-4',
-            ],
-        ]);
+        $form = $this->createForm(PetType::class, $pet);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             $pet->setOwner($this->getUser());
             $entityManager->persist($pet);
             $entityManager->flush();
+
+            $this->addFlash('success', sprintf('%s has been added to your family!', $pet->getName()));
+            return $this->redirectToRoute('app_pet');
         }
 
-
         return $this->render('user/pet/create_pet.html.twig', [
-            'form' => $form->createView(),
+            'form' => $form
         ]);
-    } 
+    }
 }
