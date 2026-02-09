@@ -25,15 +25,14 @@
 				</p>
 			</div>
 			<!-- Form Body -->
-			<div
-				class="p-8">
+			<div class="p-8">
 				{{ form_start(form) }}
 				{# {% for flash_error in app.flashes() %}
-									<div class="alert alert-danger" role="alert">{{ flash_error }}</div>
-								{% endfor %}
-								{% for error in form.vars.errors %}
-									<div class="alert alert-danger" role="alert">{{ error.message }}</div>
-								{% endfor %} #}
+																																	<div class="alert alert-danger" role="alert">{{ flash_error }}</div>
+																																{% endfor %}
+																																{% for error in form.vars.errors %}
+																																	<div class="alert alert-danger" role="alert">{{ error.message }}</div>
+																																{% endfor %} #}
 				<!-- Pet Name -->
 					<div class="flex flex-col gap-2"> <label class="text-sm font-semibold text-gray-700 dark:text-gray-200 flex items-center gap-1" for="pet-name">
 						Pet Name
@@ -74,7 +73,7 @@
 							</label>
 						{% endfor %}
 					</div>
-					
+
 					{% if isSubmitedAndInvalid and form.gender.vars.errors %}
 						<span class="error text-[0.85rem] text-(--red)">{{ form_errors(form.gender) }}</span>
 					{% endif %}
@@ -88,10 +87,10 @@
 							</span>
 							{{ form_widget(form.type) }}
 						</div>
-						
-					{% if isSubmitedAndInvalid and form.type.vars.errors %}
-						<span class="error text-[0.85rem] text-(--red)">{{ form_errors(form.type) }}</span>
-					{% endif %}
+
+						{% if isSubmitedAndInvalid and form.type.vars.errors %}
+							<span class="error text-[0.85rem] text-(--red)">{{ form_errors(form.type) }}</span>
+						{% endif %}
 					</div>
 					<div class="flex flex-col gap-2">
 						<label class="text-sm font-semibold text-gray-700 dark:text-gray-200" for="subtype">Breed</label>
@@ -101,33 +100,46 @@
 							</span>
 							{{ form_widget(form.subtype) }}
 						</div>
-						
-					{% if isSubmitedAndInvalid and form.subtype.vars.errors %}
-						<span class="error text-[0.85rem] text-(--red)">{{ form_errors(form.subtype) }}</span>
-					{% endif %}
+
+						{% if isSubmitedAndInvalid and form.subtype.vars.errors %}
+							<span class="error text-[0.85rem] text-(--red)">{{ form_errors(form.subtype) }}</span>
+						{% endif %}
 					</div>
 				</div>
 				<!-- Photo Placeholder -->
-				{# <div class="pt-4 border-t border-gray-100 dark:border-gray-800">
-																																																<div class="bg-(--green-600)/5 dark:bg-(--green-300)/10 rounded-xl p-4 flex items-center gap-4">
-																																																	<div class="h-16 w-16 bg-white dark:bg-[#1a2e2a] border-2 border-dashed border-(--green-300)/30 rounded-lg flex items-center justify-center overflow-hidden">
-																																																		<span class="text-(--green-300)/40"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-image-up-icon lucide-image-up"><path d="M10.3 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v10l-3.1-3.1a2 2 0 0 0-2.814.014L6 21"/><path d="m14 19.5 3-3 3 3"/><path d="M17 22v-5.5"/><circle cx="9" cy="9" r="2"/></svg></span>
-																																																	</div>
-																																																	<div>
-																																																		<h4 class="text-sm font-bold text-[#0e1b18] dark:text-white">
-																																																			Profile Picture
-																																																		</h4>
-																																																		<p class="text-xs text-gray-500 dark:text-gray-400">
-																																																			Upload a clear photo of your pet.
-																																																		</p>
-																																																	</div>
-																																																	<button class="ml-auto text-xs font-bold text-(--green-300) hover:text-secondary transition-colors" type="button">
-																																																		UPLOAD
-																																																	</button>
-																																																</div>
-																																															</div> #}
+				<div class="pt-4 border-t border-gray-100 dark:border-gray-800" data-controller="image-preview">
+					<div class="bg-(--green-600)/5 dark:bg-(--green-300)/10 rounded-xl p-4 flex items-center gap-4">
+
+						<div class="h-16 w-16 bg-white dark:bg-[#1a2e2a] border-2 border-dashed border-(--green-300)/30 rounded-lg flex items-center justify-center overflow-hidden">
+							<span data-image-preview-target="placeholder" class="text-(--green-300)/40">
+								<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-image-up"><path d="M10.3 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v10l-3.1-3.1a2 2 0 0 0-2.814.014L6 21"/><path d="m14 19.5 3-3 3 3"/><path d="M17 22v-5.5"/><circle cx="9" cy="9" r="2"/></svg>
+							</span>
+							<img data-image-preview-target="preview" class="hidden h-full w-full object-cover" src="#" alt="Preview">
+						</div>
+
+						<div class="flex-1 min-w-0">
+							<h4 class="text-sm font-bold text-[#0e1b18] dark:text-white">Profile Picture</h4>
+							<p data-image-preview-target="filename" class="text-xs text-gray-500 dark:text-gray-400 truncate">
+								Upload a clear photo of your pet.
+							</p>
+						</div>
+
+						<label class="ml-auto text-xs font-bold text-(--green-300) hover:text-secondary transition-colors cursor-pointer uppercase">
+							UPLOAD
+							<div class="hidden">
+								{{ form_widget(form.profilePicture, { 
+									'attr': { 
+										'data-image-preview-target': 'input',
+										'data-action': 'change->image-preview#update'
+									} 
+								}) }}
+							</div>
+						</label>
+					</div>
+				</div>
 				<!-- Save Button -->
-					<div class="pt-6"> <button class="w-full cursor-pointer bg-(--green-500) hover:bg-secondary text-white font-bold py-4 rounded-lg shadow-lg shadow-(--green-300)/20 transition-all active:scale-[0.98] flex items-center justify-center gap-2" type="submit">
+				<div class="pt-6">
+					<button class="w-full cursor-pointer bg-(--green-500) hover:bg-secondary text-white font-bold py-4 rounded-lg shadow-lg shadow-(--green-300)/20 transition-all active:scale-[0.98] flex items-center justify-center gap-2" type="submit">
 						<span class="text-xl">
 							<i class="fa-solid fa-floppy-disk"></i>
 						</span>
