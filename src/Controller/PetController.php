@@ -16,6 +16,11 @@ use App\Service\FileUploader;
 class PetController extends AbstractController
 {
 
+    public function __construct(
+        private string $petsPicturesDir,
+    ) {
+    }
+
     #[Route(path: '/pet', name: 'app_pet')]
     public function petsIndex(
         #[CurrentUser] ?User $user,
@@ -48,7 +53,7 @@ class PetController extends AbstractController
 
             $profilePictureFile = $form->get('profilePicture')->getData();
             if ($profilePictureFile) {
-                $profilePictureFileName = $fileUploader->upload($profilePictureFile);
+                $profilePictureFileName = $fileUploader->upload($profilePictureFile, $this->petsPicturesDir);
                 $pet->setProfilePictureFileName($profilePictureFileName);
             }
 
