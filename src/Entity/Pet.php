@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\PetRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use App\Enum\PetGender;
 
@@ -34,6 +36,24 @@ class Pet
 
     #[ORM\Column(type: 'string')]
     private string $profilePictureFileName;
+
+    /**
+     * @var Collection<int, PetFollow>
+     */
+    #[ORM\OneToMany(targetEntity: PetFollow::class, mappedBy: 'follower')]
+    private Collection $petFollower;
+
+    /**
+     * @var Collection<int, PetFollow>
+     */
+    #[ORM\OneToMany(targetEntity: PetFollow::class, mappedBy: 'followed')]
+    private Collection $petFollowed;
+
+    public function __construct()
+    {
+        $this->petFollower = new ArrayCollection();
+        $this->petFollowed = new ArrayCollection();
+    }
 
 
     public function getId(): ?int
@@ -109,6 +129,66 @@ class Pet
     public function setProfilePictureFileName(string $profilePictureFileName): self
     {
         $this->profilePictureFileName = $profilePictureFileName;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, PetFollow>
+     */
+    public function getPetFollower(): Collection
+    {
+        return $this->petFollower;
+    }
+
+    public function addPetFollower(PetFollow $petFollower): static
+    {
+        if (!$this->petFollower->contains($petFollower)) {
+            $this->petFollower->add($petFollower);
+            $petFollower->setFollower($this);
+        }
+
+        return $this;
+    }
+
+    public function removePetFollower(PetFollow $petFollower): static
+    {
+        if ($this->petFollower->removeElement($petFollower)) {
+            // set the owning side to null (unless already changed)
+            if ($petFollower->getFollower() === $this) {
+                $petFollower->setFollower(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, PetFollow>
+     */
+    public function getPetFollowed(): Collection
+    {
+        return $this->petFollowed;
+    }
+
+    public function addPetFollowed(PetFollow $petFollowed): static
+    {
+        if (!$this->petFollowed->contains($petFollowed)) {
+            $this->petFollowed->add($petFollowed);
+            $petFollowed->setFollowed($this);
+        }
+
+        return $this;
+    }
+
+    public function removePetFollowed(PetFollow $petFollowed): static
+    {
+        if ($this->petFollowed->removeElement($petFollowed)) {
+            // set the owning side to null (unless already changed)
+            if ($petFollowed->getFollowed() === $this) {
+                $petFollowed->setFollowed(null);
+            }
+        }
 
         return $this;
     }

@@ -6,6 +6,7 @@ use App\Repository\PetFollowRepository;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: PetFollowRepository::class)]
+#[ORM\UniqueConstraint(name: 'UNIQ_FOLLOW_PAIR', columns: ['follower_id', 'followed_id'])]
 class PetFollow
 {
     #[ORM\Id]
@@ -14,9 +15,11 @@ class PetFollow
     private ?int $id = null;
 
     #[ORM\ManyToOne(inversedBy: 'petFollower')]
+    #[ORM\JoinColumn(nullable: false, onDelete: 'CASCADE')]
     private ?Pet $follower = null;
 
     #[ORM\ManyToOne(inversedBy: 'petFollowed')]
+    #[ORM\JoinColumn(nullable: false, onDelete: 'CASCADE')]
     private ?Pet $followed = null;
 
     #[ORM\Column]
@@ -62,4 +65,10 @@ class PetFollow
 
         return $this;
     }
+    
+    public function __construct()
+    {
+        $this->createdAt = new \DateTimeImmutable();
+    }
+
 }
