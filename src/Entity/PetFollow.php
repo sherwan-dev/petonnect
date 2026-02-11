@@ -65,4 +65,10 @@ class PetFollow
 
         return $this;
     }
+    
+    public function __construct()
+    {
+        $this->createdAt = new \DateTimeImmutable();
+    }
+
 }
