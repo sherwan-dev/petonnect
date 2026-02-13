@@ -15,6 +15,24 @@ class PetRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, Pet::class);
     }
+    
+    public function findByFilters(array $filters = []): array
+    {
+        $qb = $this->createQueryBuilder('p');
+
+        foreach ($filters as $index => $filter) {
+            [$column, $operator, $value] = $filter;
+
+            $paramName = "val_" . $index;
+
+            $qb->andWhere("p.{$column} {$operator} :{$paramName}")
+                ->setParameter($paramName, $value);
+        }
+
+        return $qb->orderBy('p.id', 'DESC')
+            ->getQuery()
+            ->getResult();
+    }
 
     //    /**
     //     * @return Pet[] Returns an array of Pet objects
