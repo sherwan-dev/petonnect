@@ -1,0 +1,38 @@
+{% block member_item %}
+	{% set isFollowing = pet.id in (followedPetIds|default([])) %}
+	<div class="card-has-hover bg-(--white) dark:bg-card-dark p-6 rounded-xl shadow-sm flex items-center justify-between border border-gray-100 dark:border-gray-800">
+		<div class="flex items-center space-x-4">
+			<div class="relative w-16 h-16 rounded-full overflow-hidden shrink-0 border-2 border-gray-100 dark:border-gray-700">
+				{% if pet.profilePictureFileName %}
+					<img src="{{ asset('uploads/pets/' ~ pet.profilePictureFileName) }}" alt="{{ pet.name }}" class="h-full w-full object-cover">
+				{% else %}
+					<img src="{{ asset('assets/images/default-pet.png') }}" alt="Pet Image" class="h-full w-full object-cover opacity-50">
+				{% endif %}
+			</div>
+			<div>
+				<h3 class="text-xl font-bold text-gray-900 dark:text-white">
+					{{ pet.name }}
+				</h3>
+				<p class="text-xs font-medium text-gray-400 dark:text-gray-500 uppercase tracking-widest">
+					{{ pet.subtype.name }}
+				</p>
+			</div>
+		</div>
+		<button
+			data-controller="pet-follow"
+			data-action="click->pet-follow#toggle"
+			data-pet-follow-url-value="{{ path('api_pet_follow', { id: pet.id }) }}"
+			data-pet-follow-following-value="{{ isFollowing ? 'true' : 'false' }}"
+			data-pet-follow-follow-class="bg-(--primary-color) hover:bg-[#16a085]"
+			data-pet-follow-following-class="bg-gray-700 hover:bg-gray-600"
+			{% if followerPet %}
+				data-pet-follow-follower-id-value="{{ followerPet.id }}"
+			{% else %}
+				disabled
+				title="You need at least one pet to follow others."
+			{% endif %}
+			class="cursor-pointer text-white px-6 py-2 rounded-full font-bold text-sm transition-colors shadow-sm uppercase tracking-wide bg-(--primary-color) hover:bg-[#16a085] disabled:opacity-60 disabled:cursor-not-allowed">
+			{{ isFollowing ? 'UNFOLLOW' : 'FOLLOW' }}
+		</button>
+	</div>
+{% endblock %}
