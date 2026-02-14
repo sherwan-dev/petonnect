@@ -61,12 +61,19 @@ class Pet
     #[ORM\OneToMany(targetEntity: Comment::class, mappedBy: 'author', orphanRemoval: true)]
     private Collection $comments;
 
+    /**
+     * @var Collection<int, PostLike>
+     */
+    #[ORM\OneToMany(targetEntity: PostLike::class, mappedBy: 'pet', orphanRemoval: true)]
+    private Collection $likedPosts;
+
     public function __construct()
     {
         $this->petFollower = new ArrayCollection();
         $this->petFollowed = new ArrayCollection();
         $this->posts = new ArrayCollection();
         $this->comments = new ArrayCollection();
+        $this->likedPosts = new ArrayCollection();
     }
 
 
@@ -261,6 +268,36 @@ class Pet
             // set the owning side to null (unless already changed)
             if ($comment->getAuthor() === $this) {
                 $comment->setAuthor(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, PostLike>
+     */
+    public function getLikedPosts(): Collection
+    {
+        return $this->likedPosts;
+    }
+
+    public function addLikedPost(PostLike $likedPost): static
+    {
+        if (!$this->likedPosts->contains($likedPost)) {
+            $this->likedPosts->add($likedPost);
+            $likedPost->setPet($this);
+        }
+
+        return $this;
+    }
+
+    public function removeLikedPost(PostLike $likedPost): static
+    {
+        if ($this->likedPosts->removeElement($likedPost)) {
+            // set the owning side to null (unless already changed)
+            if ($likedPost->getPet() === $this) {
+                $likedPost->setPet(null);
             }
         }
 
