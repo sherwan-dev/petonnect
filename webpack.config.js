@@ -47,11 +47,12 @@ Encore
     .enableSourceMaps(!Encore.isProduction())
     // enables hashed filenames (e.g. app.abc123.css)
     .enableVersioning(Encore.isProduction())
+    // live reload config
     .configureDevServerOptions(options => {
         options.liveReload = true;
         options.hot = true;
         options.allowedHosts = 'all';
-        options.watchFiles = ['assets/**/*', 'templates/**/*.twig']; // Watch everything in your assets folder
+        options.watchFiles = ['assets/**/*', 'templates/**/*.twig']; 
     })
 
     // configure Babel
