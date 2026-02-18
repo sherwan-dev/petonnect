@@ -9,6 +9,7 @@
     --font-size-base: 16px;
     --spacing-unit: 8px;
     --white: #ffffff;
+    --dark-gray: #4b5563;
     --text-dark-gray: #4b5563;
 
     --green-100: #e0f7f4;
@@ -20,5 +21,10 @@
     --green-700: #12806b;
     --green-800: #0d604f;
     --green-900: #082f34;
+
+    --background-light: #f6f8f6;
+    --background-dark: #102216;
+    --neutral-soft: #e9efe9;
+    --neutral-deep: #2a3d30;
     /* --test: #1bbb9b; */
 }

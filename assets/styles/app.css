@@ -13,17 +13,16 @@
 
 body {
     background-color: var(--light-white);
-    font-family: "Inter"; 
+    font-family: "Inter";
     font-style: normal;
 }
 
 input[type="radio"] {
-  accent-color: var(--dark-green);  
+    accent-color: var(--dark-green);
 }
 input[type="radio"]:hover {
-  accent-color: var(--light-green);  
+    accent-color: var(--light-green);
 }
-
 
 .form-control {
     border: 1px solid #ccc;
@@ -36,6 +35,13 @@ input[type="radio"]:hover {
     outline: none;
     border-color: var(--dark-green);
     box-shadow: 0 0 3px var(--dark-green);
+}
+
+.card-has-hover:hover {
+    transform: translateY(-2px);
+    box-shadow:
+        0 10px 15px -3px rgba(0, 0, 0, 0.1),
+        0 4px 6px -2px rgba(0, 0, 0, 0.05);
 }
 
 /* * {

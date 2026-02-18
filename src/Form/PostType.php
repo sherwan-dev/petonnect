@@ -10,7 +10,7 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\EnumType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
-use Symfony\Component\Form\Extension\Core\Type\HiddenType;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
 
 use App\Enum\PostVisibility;
 
@@ -20,7 +20,7 @@ class PostType extends AbstractType
     {
         $builder
             ->add('content', TextareaType::class, [
-                'label' => false, 
+                'label' => false,
                 'required' => true,
                 'attr' => [
                     'class' => 'w-full border-none focus:ring-0 text-xl bg-transparent text-(--text-dark-gray) placeholder-gray-400 resize-none min-h-10 max-h-40 p-0 focus-visible:outline-none',
@@ -42,6 +42,18 @@ class PostType extends AbstractType
                     'class' => 'appearance-none bg-(--dark-white) block w-full px-1 py-1 text-xs text-(--dark-gray)/70 rounded-sm cursor-pointer focus:outline-none focus:border-primary/50 transition-colors uppercase tracking-wider',
                 ],
                 'choice_attr' => fn() => ['class' => 'bg-(--green-100) text-(--dark-gray)'],
+            ])
+            ->add('imageFiles', FileType::class, [
+                'label' => false,
+                'mapped' => false, 
+                'multiple' => true, 
+                'required' => false,
+                'attr' => [
+                    'class' => 'hidden',
+                    'accept' => 'image/*',
+                    'data-post-images-uploader-preview-target' => 'input',
+                    'data-action'=>'change->post-images-uploader-preview#update'
+                ]
             ])
         ;
     }
