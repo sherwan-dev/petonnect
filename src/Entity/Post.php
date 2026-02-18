@@ -34,7 +34,10 @@ class Post
     /**
      * @var Collection<int, PostImage>
      */
-    #[ORM\OneToMany(targetEntity: PostImage::class, mappedBy: 'post')]
+    #[ORM\OneToMany(targetEntity: PostImage::class,
+        mappedBy: 'post',
+        cascade: ['persist', 'remove'],
+        orphanRemoval: true)]
     private Collection $images;
 
     /**
@@ -54,7 +57,7 @@ class Post
         $this->images = new ArrayCollection();
         $this->comments = new ArrayCollection();
         $this->likes = new ArrayCollection();
-        $this->createdAt = new \DateTimeImmutable();        
+        $this->createdAt = new \DateTimeImmutable();
     }
 
     public function getId(): ?int
