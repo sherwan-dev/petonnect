@@ -1,8 +1,6 @@
 {% block new_post %}
 	{% set pet = app.user.pets.first %}
-	<div
-		class="w-full max-w-2xl mx-auto py-4">
-
+	<div class="w-full max-w-150 mx-auto py-4" id="create-post-form-container">
 		{{ form_start(form, {'action': path('app_post_new'), 'attr': {'class': 'bg-(--white) rounded-xl shadow-sm border border-gray-200 p-[calc(var(--spacing-unit)*2)]'}}) }}
 		<div class="pb-4 flex items-center justify-between">
 			<div class="flex items-center gap-4">
@@ -17,7 +15,6 @@
 					<h3 class="font-bold text-(--dark-gray) dark:text-white text-lg leading-tight">
 						{{ pet.name }}
 					</h3>
-
 					<div class="relative inline-block">
 						{{ form_widget(form.visibility) }}
 					</div>
@@ -31,13 +28,18 @@
 			{{ form_widget(form.content) }}
 			{{ form_errors(form.content) }}
 		</div>
-		<div class="flex items-center justify-between">
-			<button aria-label="Upload Photo" class="cursor-pointer bg-(--dark-green) hover:bg-(--light-green) transition-all w-12 h-12 rounded-full flex items-center justify-center text-white shadow-md focus:outline-none" type="button">
-				<i class="fa-regular fa-camera fa-xl"></i>
-			</button>
-			<button class="cursor-pointer bg-(--dark-green) hover:bg-(--light-green)  transition-all px-8 py-2.5 rounded-full text-white font-bold tracking-wider text-sm focus:outline-none" type="submit">
-				SEND
-			</button>
+		<div class="flex flex-col items-center justify-between" data-controller="post-images-uploader-preview">
+			{{ form_widget(form.imageFiles) }}
+			<div id="image-preview-container" data-post-images-uploader-preview-target="previewContainer" class="flex flex-wrap gap-2 mb-4 w-full"></div>
+
+			<div class="flex items-center justify-between w-full">
+				<button onclick="document.getElementById('{{ form.imageFiles.vars.id }}').click()" aria-label="Upload Photo" class="cursor-pointer bg-(--dark-green) hover:bg-(--light-green) transition-all w-12 h-12 rounded-full flex items-center justify-center text-white shadow-md focus:outline-none" type="button">
+					<i class="fa-regular fa-camera fa-xl"></i>
+				</button>
+				<button class="cursor-pointer bg-(--dark-green) hover:bg-(--light-green)  transition-all px-8 py-2.5 rounded-full text-white font-bold tracking-wider text-sm focus:outline-none" type="submit">
+					SEND
+				</button>
+			</div>
 		</div>
 		{{ form_rest(form) }}
 		{{ form_end(form) }}
