@@ -13,11 +13,12 @@ use Symfony\UX\Turbo\TurboBundle;
 use App\Entity\PostImage;
 use Symfony\Component\String\Slugger\SluggerInterface;
 use App\Service\FileUploader;
+use Psr\Log\LoggerInterface;
 
 class PostController extends AbstractController
 {
     public function __construct(
-        private string $postsImagesDir,
+        private string $postsImagesDir
     ) {
     }
     
@@ -46,12 +47,13 @@ class PostController extends AbstractController
             $em->flush();
 
             if (TurboBundle::STREAM_FORMAT === $request->getPreferredFormat()) {
-                return $this->render('post/_create_success.stream.html.twig', [
+                $request->setRequestFormat(TurboBundle::STREAM_FORMAT);
+                return $this->renderBlock('post/_create_success.stream.html.twig','new_post', [
                     'post' => $post,
-                    'form' => $this->createForm(PostType::class)->createView()
+                    'form' => $this->createForm(PostType::class)
                 ]);
             }
-
+            
             return $this->redirectToRoute('app_home');
         }
 
