@@ -14,7 +14,9 @@ use App\Entity\PostImage;
 use Symfony\Component\String\Slugger\SluggerInterface;
 use App\Service\FileUploader;
 use Psr\Log\LoggerInterface;
+use Symfony\Component\HttpFoundation\JsonResponse;
 
+#[Route('/post', name: 'app_post')]
 class PostController extends AbstractController
 {
     public function __construct(
@@ -22,7 +24,7 @@ class PostController extends AbstractController
     ) {
     }
     
-    #[Route('/post/new', name: 'app_post_new', methods: ['POST'])]
+    #[Route('/new', name: '_new', methods: ['POST'])]
     public function new(Request $request, EntityManagerInterface $em,
         FileUploader $fileUploader): Response
     {
@@ -60,5 +62,32 @@ class PostController extends AbstractController
         return $this->render('post/_create.html.twig', [
             'form' => $form,
         ], new Response(422));
+    }
+
+    
+    #[Route('/{id}', name: '_delete', methods: ['DELETE'])]
+    public function delete(EntityManagerInterface $em, Post $post, Request $request): Response
+    {
+
+        if ($post->getAuthor()->getOwner() !== $this->getUser()) {
+            return new JsonResponse(['error' => 'Forbidden'], Response::HTTP_FORBIDDEN);
+        }
+
+        $postId = $post->getId(); 
+        $em->remove($post);
+        $em->flush();
+
+        if (TurboBundle::STREAM_FORMAT === $request->getPreferredFormat()) {
+            return new Response(
+                sprintf(
+                    '<turbo-stream action="remove" target="post-card-%s"></turbo-stream>',
+                    $postId
+                ),
+                200,
+                ['Content-Type' => TurboBundle::STREAM_MEDIA_TYPE]
+            );
+        }
+
+        return new JsonResponse(['message' => 'Post deleted successfully'], Response::HTTP_OK);
     }
 }
