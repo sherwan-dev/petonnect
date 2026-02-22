@@ -1,4 +1,6 @@
 {% block nav_bar %}
+	{% set activePet = app.user.activePet %}
+	{% set pets = app.user.pets %}
 	<header class="sticky top-0 z-50 w-full bg-[#2e2b26] border-b border-white/10 px-6 py-1">
 		<div class="max-w-360 mx-auto flex items-center justify-between gap-8">
 			<div class="flex items-center ">
@@ -27,9 +29,9 @@
 					<button class="flex items-center justify-center rounded-full size-10 hover:bg-white/10 text-white/70 hover:text-(--light-white) transition-colors cursor-pointer">
 						<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-bell-icon lucide-bell"><path d="M10.268 21a2 2 0 0 0 3.464 0"/><path d="M3.262 15.326A1 1 0 0 0 4 17h16a1 1 0 0 0 .74-1.673C19.41 13.956 18 12.499 18 8A6 6 0 0 0 6 8c0 4.499-1.411 5.956-2.738 7.326"/></svg>
 					</button>
-				</div> 
+				</div>
 
-				<div class="relative"> 
+				<div class="relative">
 					<button class="flex items-center gap-3 pl-2 py-1.5 pr-3 rounded-full hover:bg-white/10 transition-all group cursor-pointer" id="user-menu-button" onclick="document.getElementById('user-menu-button').classList.toggle('is-open')">
 						<div class="relative">
 							<div class="size-9 rounded-full bg-center bg-cover border-2 border-transparent group-hover:border-(--light-white) transition-colors flex items-center justify-center" data-alt="User profile avatar with a professional smile">
@@ -37,13 +39,19 @@
 							</div>
 							<div class="absolute bottom-0 right-0 size-3 bg-green-500 border-2 border-[#181811] rounded-full"></div>
 						</div>
-						<div class="hidden md:flex flex-col items-start">
-							<span class="text-white text-sm font-semibold">Active Pet</span>
-						</div>
-						<span class="material-symbols-outlined text-white/40 group-hover:text-white in-[.is-open]:hidden transition-colors">
+						{% if activePet %}
+							<div class="hidden md:flex flex-col items-start">
+								<span class="text-white text-sm font-semibold">{{ activePet.name }}</span>
+							</div>
+						{% elseif app.user is defined %}
+							<div class="hidden md:flex flex-col items-start">
+								<span class="text-white text-sm font-semibold">{{ app.user.firstName }}</span>
+							</div>
+						{% endif %}
+						<span class="text-white/40 group-hover:text-white in-[.is-open]:hidden transition-colors">
 							<i class="fa-solid fa-chevron-down"></i>
 						</span>
-						<span class="material-symbols-outlined text-white/40 in-[.is-open]:block group-hover:text-white hidden  transition-colors">
+						<span class="text-white/40 in-[.is-open]:block group-hover:text-white hidden  transition-colors">
 							<i class="fa-solid fa-chevron-up"></i>
 						</span>
 					</button>
