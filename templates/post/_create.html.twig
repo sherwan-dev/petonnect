@@ -1,21 +1,47 @@
 {% block new_post %}
-	<div class="w-full max-w-2xl mx-auto py-4">
-		<div class="bg-(--white) rounded-xl shadow-sm border border-gray-200 p-[calc(var(--spacing-unit)*2)]">
-			<div class="mb-[calc(var(--spacing-unit)*2)]">
-				<textarea 
-                    id="new-post-textarea" 
-                    class="w-full border-none focus:ring-0 text-xl bg-transparent text-(--text-dark-gray) placeholder-gray-400 resize-none min-h-10 max-h-40 p-0 focus-visible:outline-none" 
-                    style="field-sizing: content;"
-                    placeholder="What's new?"></textarea>
+	{% set pet = app.user.pets.first %}
+	<div class="w-full max-w-150 mx-auto py-4" id="create-post-form-container">
+		{{ form_start(form, {'action': path('app_post_new'), 'attr': {'class': 'bg-(--white) rounded-xl shadow-sm border border-gray-200 p-[calc(var(--spacing-unit)*2)]'}}) }}
+		<div class="pb-4 flex items-center justify-between">
+			<div class="flex items-center gap-4">
+				<div class="relative">
+					{% if pet.profilePictureFileName %}
+						<img src="{{ asset('uploads/pets/' ~ pet.profilePictureFileName) }}" alt="{{ pet.name }}" class="w-12 h-12 rounded-full object-cover border-2 border-(--primary-color)">
+					{% else %}
+						<img src="{{ asset('assets/images/default-pet.png') }}" alt="Pet Image" class="w-12 h-12 rounded-full object-cover border-2 border-(--primary-color)">
+					{% endif %}
+				</div>
+				<div>
+					<h3 class="font-bold text-(--dark-gray) dark:text-white text-lg leading-tight">
+						{{ pet.name }}
+					</h3>
+					<div class="relative inline-block">
+						{{ form_widget(form.visibility) }}
+					</div>
+				</div>
 			</div>
-			<div class="flex items-center justify-between">
-				<button aria-label="Upload Photo" class="cursor-pointer bg-(--dark-green) hover:bg-(--light-green) transition-all w-12 h-12 rounded-full flex items-center justify-center text-white shadow-md focus:outline-none" type="button">
+			<button class="text-(--dark-gray)/40 hover:text-(--primary-color) transition-colors  cursor-pointer">
+				<i class="fa-solid fa-ellipsis"></i>
+			</button>
+		</div>
+		<div class="mb-[calc(var(--spacing-unit)*2)]">
+			{{ form_widget(form.content) }}
+			{{ form_errors(form.content) }}
+		</div>
+		<div class="flex flex-col items-center justify-between" data-controller="post-images-uploader-preview">
+			{{ form_widget(form.imageFiles) }}
+			<div id="image-preview-container" data-post-images-uploader-preview-target="previewContainer" class="flex flex-wrap gap-2 mb-4 w-full"></div>
+
+			<div class="flex items-center justify-between w-full">
+				<button onclick="document.getElementById('{{ form.imageFiles.vars.id }}').click()" aria-label="Upload Photo" class="cursor-pointer bg-(--dark-green) hover:bg-(--light-green) transition-all w-12 h-12 rounded-full flex items-center justify-center text-white shadow-md focus:outline-none" type="button">
 					<i class="fa-regular fa-camera fa-xl"></i>
 				</button>
-				<button class="cursor-pointer bg-(--dark-green) hover:bg-(--light-green)  transition-all px-8 py-2.5 rounded-full text-white font-bold tracking-wider text-sm focus:outline-none" type="button">
-					SEND
+				<button class="cursor-pointer bg-(--dark-green) hover:bg-(--light-green)  transition-all px-8 py-2.5 rounded-full text-white font-bold tracking-wider text-sm focus:outline-none" type="submit">
+					POST
 				</button>
 			</div>
 		</div>
+		{{ form_rest(form) }}
+		{{ form_end(form) }}
 	</div>
 {% endblock %}

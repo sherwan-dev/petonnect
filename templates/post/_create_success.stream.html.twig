@@ -1,0 +1,13 @@
+{% block new_post %}
+<turbo-stream action="replace" target="create-post-form-container">
+    <template>
+        {% include 'post/_create.html.twig' with {'form': form} %}
+    </template>
+</turbo-stream>
+
+<turbo-stream action="prepend" target="post_list_container">
+    <template>
+        {% include 'post/_card.html.twig' with {'post': post} %}
+    </template>
+</turbo-stream>
+{% endblock %}

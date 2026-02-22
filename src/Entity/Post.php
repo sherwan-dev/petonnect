@@ -7,8 +7,10 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use App\Enum\PostVisibility;
 
 #[ORM\Entity(repositoryClass: PostRepository::class)]
+#[ORM\HasLifecycleCallbacks]
 class Post
 {
     #[ORM\Id]
@@ -19,8 +21,8 @@ class Post
     #[ORM\Column(type: Types::TEXT, nullable: true)]
     private ?string $content = null;
 
-    #[ORM\Column(length: 10)]
-    private ?string $visibility = null;
+    #[ORM\Column(length: 10, type: "string", enumType: PostVisibility::class)]
+    private ?PostVisibility $visibility = null;
 
     #[ORM\Column]
     private ?\DateTimeImmutable $createdAt = null;
@@ -32,7 +34,10 @@ class Post
     /**
      * @var Collection<int, PostImage>
      */
-    #[ORM\OneToMany(targetEntity: PostImage::class, mappedBy: 'post')]
+    #[ORM\OneToMany(targetEntity: PostImage::class,
+        mappedBy: 'post',
+        cascade: ['persist', 'remove'],
+        orphanRemoval: true)]
     private Collection $images;
 
     /**
@@ -52,6 +57,7 @@ class Post
         $this->images = new ArrayCollection();
         $this->comments = new ArrayCollection();
         $this->likes = new ArrayCollection();
+        $this->createdAt = new \DateTimeImmutable();
     }
 
     public function getId(): ?int
@@ -71,12 +77,12 @@ class Post
         return $this;
     }
 
-    public function getVisibility(): ?string
+    public function getVisibility(): ?PostVisibility
     {
         return $this->visibility;
     }
 
-    public function setVisibility(string $visibility): static
+    public function setVisibility(PostVisibility $visibility): static
     {
         $this->visibility = $visibility;
 
@@ -93,6 +99,14 @@ class Post
         $this->createdAt = $createdAt;
 
         return $this;
+    }
+
+    #[ORM\PrePersist]
+    public function setCreatedAtValue(): void
+    {
+        if ($this->createdAt === null) {
+            $this->createdAt = new \DateTimeImmutable();
+        }
     }
 
     public function getAuthor(): ?Pet

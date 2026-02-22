@@ -1,0 +1,5 @@
+<div id="post_list_container">
+    {% for post in posts %}
+        {% include 'post/_card.html.twig' with {'post': post, 'userHasPets': userHasPets} %}
+    {% endfor %}
+</div>

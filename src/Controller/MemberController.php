@@ -10,7 +10,6 @@ use Symfony\Component\Security\Http\Attribute\CurrentUser;
 use App\Repository\PetRepository;
 use App\Repository\PetFollowRepository;
 
-
 class MemberController extends AbstractController
 {
 
@@ -56,4 +55,13 @@ class MemberController extends AbstractController
             'followedPetIds' => $followedPetIds,
         ]);
     }
+
+     #[Route(path: '/members/{id}', name: 'app_member_profile')]
+     public function membersIndex(#[CurrentUser] ?User $user, int $id): Response
+     { 
+
+         return $this->render('member/one_member/index.html.twig');
+     }
+
+
 }
