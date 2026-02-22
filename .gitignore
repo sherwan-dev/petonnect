@@ -25,4 +25,7 @@ yarn-error.log
 .env.*
 !.env
 /design/
+/garbage/
+/public/uploads/pets/
+/public/uploads/posts/
 ###< own 
