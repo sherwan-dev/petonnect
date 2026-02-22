@@ -1,7 +1,7 @@
 {% extends 'base.html.twig' %}
-{% block title %}My Pets
-{% endblock %}
+{% block title %}My Pets{% endblock %}
 {% block body %}
+	{% set activePet = app.user.activePet %}
 	<div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
 		<div class="flex items-center justify-between mb-8 flex-nowrap">
 			<h1 class="font-display text-2xl text-gray-900 dark:text-gray-100 mb-6">My Pets</h1>
@@ -20,7 +20,7 @@
 		<div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
 			{% if pets is defined and pets is not empty %}
 				{% for pet in pets %}
-					{% include 'user/pet/_pet.html.twig' with {'pet': pet} %}
+					{% include 'user/pet/_pet.html.twig' with {'pet': pet, 'activePet': activePet} %}
 				{% endfor %}
 			{% else %}
 				<p class="text-gray-600 dark:text-gray-400">You have no pets registered.</p>

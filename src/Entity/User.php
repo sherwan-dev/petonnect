@@ -58,6 +58,11 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(targetEntity: Pet::class, mappedBy: 'owner', orphanRemoval: true)]
     private Collection $pets;
 
+    #[ORM\OneToOne(
+        targetEntity: Pet::class,
+        cascade: ['persist', 'remove'])]
+    private ?Pet $activePet = null;
+
     public function __construct()
     {
         $this->pets = new ArrayCollection();
@@ -210,6 +215,18 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
                 $pet->setOwner(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getActivePet(): ?Pet
+    {
+        return $this->activePet;
+    }
+
+    public function setActivePet(?Pet $activePet): static
+    {
+        $this->activePet = $activePet;
 
         return $this;
     }
