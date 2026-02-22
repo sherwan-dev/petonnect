@@ -45,6 +45,7 @@ security:
         - { path: ^/verify, roles: PUBLIC_ACCESS }
         - { path: ^/legal, roles: PUBLIC_ACCESS }
         - { path: ^/, roles: ROLE_USER, allow_if: "user" }
+        - { path: ^/api, roles: IS_AUTHENTICATED_FULLY }
 
 
 when@test:
