@@ -4,7 +4,7 @@
 		<div class="bg-white dark:bg-zinc-900 px-6 pt-20 pb-10 flex flex-col items-center">
 			<div class="absolute top-40 left-1/2 -translate-x-1/2 -translate-y-1/2">
 				<div class="relative w-36 h-36 rounded-full bg-white dark:bg-zinc-900 p-1.5 shadow-sm">
-					<div class="w-full h-full rounded-full bg-red flex items-center justify-center overflow-hidden">
+					<div class="w-full h-full rounded-full bg-red flex items-center justify-center overflow-hidden {% if activePet and activePet.id == pet.id %}ring-3 ring-(--green-600){% endif %}">
 						{% if pet.profilePictureFileName %}
 							<img src="{{ asset('uploads/pets/' ~ pet.profilePictureFileName) }}" alt="{{ pet.name }}" class="h-full w-full object-cover">
 						{% else %}
