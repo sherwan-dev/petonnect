@@ -21,6 +21,13 @@
 				{% include 'page/nav-bar.html.twig' %}
 			{% endblock %}
 		{% endif %}
+		
 		{% block body %}{% endblock %}
+		
+		{% block flash_messages %}
+			<div id="flash-container" class="fixed top-0 right-0 z-50 p-4">
+				{% include 'ui-component/_flashes.html.twig' %}
+			</div>
+		{% endblock %}
 	</body>
 </html>
