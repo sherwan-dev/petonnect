@@ -1,6 +1,8 @@
 {% block flashes %}
 	{% for type, messages in app.flashes %}
 		{% for message in messages %}
+		<turbo-stream action="update" target="flash-container">
+			<template>
 			<div 
 			id="toast-{{ type }}" 
 			class="flex items-center w-full max-w-sm p-2 text-body bg-white rounded-2 shadow-xs rounded-sm" 
@@ -15,7 +17,7 @@
 				<button type="button" data-action="closeable#close" class="cursor-pointer ms-auto flex items-center justify-center text-body hover:text-heading bg-transparent box-border leading-5 rounded text-sm h-8 w-8 focus:outline-none" data-dismiss-target="#toast-{{ type }}" aria-label="Close">
 					<i class="fa-solid fa-xmark" aria-hidden="true" ></i>   
                 </button>
-			</div>
+			</div></template></turbo-stream>
 		{% endfor %}
 	{% endfor %}
 {% endblock %}
