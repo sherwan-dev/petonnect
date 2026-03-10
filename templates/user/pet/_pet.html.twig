@@ -1,10 +1,10 @@
 {% block pet_block %}
-	<div class="relative w-full max-w-[320px] bg-white dark:bg-zinc-900 rounded-lg shadow-xl overflow-hidden border border-gray-100 dark:border-zinc-800">
+	<div class="pet-item relative w-full max-w-[320px] bg-white dark:bg-zinc-900 rounded-lg shadow-xl overflow-hidden border border-gray-100 dark:border-zinc-800 {% if activePet and activePet.id == pet.id %}active{% endif %}"  data-pet-id="{{ pet.id }}">
 		<div class="h-40 bg-[#2e2b26] dark:opacity-80"></div>
 		<div class="bg-white dark:bg-zinc-900 px-6 pt-20 pb-10 flex flex-col items-center">
 			<div class="absolute top-40 left-1/2 -translate-x-1/2 -translate-y-1/2">
-				<div class="relative w-36 h-36 rounded-full bg-white dark:bg-zinc-900 p-1.5 shadow-sm">
-					<div class="w-full h-full rounded-full bg-red flex items-center justify-center overflow-hidden {% if activePet and activePet.id == pet.id %}ring-3 ring-(--green-600){% endif %}">
+				<div class="relative w-36 h-36 rounded-full bg-white dark:bg-zinc-900 p-1.5 shadow-sm cursor-pointer" data-action-url="{{ path('app_user_active_pet', {id: pet.id}) }}" data-controller="pet-selection" data-action="click->pet-selection#select" data-pet-id="{{ pet.id }}">
+					<div class="w-full h-full rounded-full bg-red flex items-center justify-center overflow-hidden {% if activePet and activePet.id == pet.id %}ring-3 ring-(--green-600){% endif %} pet-image-container">
 						{% if pet.profilePictureFileName %}
 							<img src="{{ asset('uploads/pets/' ~ pet.profilePictureFileName) }}" alt="{{ pet.name }}" class="h-full w-full object-cover">
 						{% else %}
