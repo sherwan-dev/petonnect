@@ -79,9 +79,20 @@
                             {{ pet.subtype.name }}
                         </p>
                         <button
-                            class="w-full bg-(--primary-color) hover:bg-secondary text-white font-bold py-2 px-4 rounded transition-colors mb-6"
-                        >
-                            FOLLOW
+                            data-controller="pet-follow"
+                            data-action="click->pet-follow#toggle"
+                            data-pet-follow-url-value="{{ path('api_pet_follow', { id: pet.id }) }}"
+                            data-pet-follow-following-value="{{ isFollowing ? 'true' : 'false' }}"
+                            data-pet-follow-follow-class="bg-(--primary-color) hover:bg-[#16a085]"
+                            data-pet-follow-following-class="bg-gray-700 hover:bg-gray-600"
+                            {% if activePet %}
+                                data-pet-follow-follower-id-value="{{ activePet.id }}"
+                            {% else %}
+                                disabled
+                                title="You need at least one pet to follow others."
+                            {% endif %}
+                            class="cursor-pointer text-white px-6 py-2 rounded-full font-bold text-sm transition-colors shadow-sm uppercase tracking-wide bg-(--primary-color) hover:bg-[#16a085] disabled:opacity-60 disabled:cursor-not-allowed">
+                            {{ isFollowing ? 'UNFOLLOW' : 'FOLLOW' }}
                         </button>
                         
                     </div>
