@@ -57,11 +57,14 @@ class MemberController extends AbstractController
     }
 
      #[Route(path: '/members/{id}', name: 'app_member_profile')]
-     public function membersIndex(#[CurrentUser] ?User $user, int $id): Response
+     public function petProfile(
+        int $id,
+        PetRepository $petRepository): Response
      { 
-
-         return $this->render('member/one_member/index.html.twig');
+        $pet = $petRepository->find($id);
+         return $this->render('member/one_member/index.html.twig', [
+             'pet' => $pet
+         ]);
      }
-
 
 }
