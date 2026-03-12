@@ -4,8 +4,9 @@ namespace App\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\Attribute\Route; 
+use Symfony\Component\Routing\Attribute\Route;
 use App\Entity\User;
+use App\Entity\Pet;
 use Symfony\Component\Security\Http\Attribute\CurrentUser;
 use App\Repository\PetRepository;
 use App\Repository\PetFollowRepository;
@@ -18,8 +19,7 @@ class MemberController extends AbstractController
         #[CurrentUser] ?User $user,
         PetRepository $petRepository,
         PetFollowRepository $petFollowRepository
-    ): Response
-    { 
+    ): Response {
         $filters = [];
         $followerPet = null;
         $followedPetIds = [];
@@ -56,12 +56,33 @@ class MemberController extends AbstractController
         ]);
     }
 
-     #[Route(path: '/members/{id}', name: 'app_member_profile')]
-     public function membersIndex(#[CurrentUser] ?User $user, int $id): Response
-     { 
+    #[Route(path: '/members/{id}', name: 'app_member_profile')]
+    public function petProfile(
+        #[CurrentUser] ?User $user,
+        Pet $pet,
+        PetRepository $petRepository,
+        PetFollowRepository $petFollowRepository
+    ): Response {
 
-         return $this->render('member/one_member/index.html.twig');
-     }
+        $isFollowing = false;
+        $activePet = null;
 
+        $activePet = $user?->getActivePet();
+
+        if ($activePet) {
+            $follow = $petFollowRepository->findOneBy([
+                'follower' => $activePet,
+                'followed' => $pet
+            ]);
+
+            $isFollowing = $follow !== null;
+        }
+
+        return $this->render('member/one_member/index.html.twig', [
+            'pet' => $pet,
+            'isFollowing' => $isFollowing,
+            'activePet' => $activePet
+        ]);
+    }
 
 }

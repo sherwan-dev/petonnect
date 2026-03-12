@@ -11,7 +11,9 @@
 			</div>
 			<div>
 				<h3 class="text-xl font-bold text-gray-900 dark:text-white">
-					{{ pet.name }}
+					<a href="{{ path('app_member_profile', { id: pet.id }) }}" class="hover:text-(--green-500)">
+						{{ pet.name }}
+					</a>
 				</h3>
 				<p class="text-xs font-medium text-gray-400 dark:text-gray-500 uppercase tracking-widest">
 					{{ pet.subtype.name }}
