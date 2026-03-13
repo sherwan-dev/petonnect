@@ -15,6 +15,7 @@ use Symfony\Component\String\Slugger\SluggerInterface;
 use App\Service\FileUploader;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use App\Entity\User;
 
 #[Route('/post', name: 'app_post')]
 class PostController extends AbstractController
@@ -23,17 +24,21 @@ class PostController extends AbstractController
         private string $postsImagesDir
     ) {
     }
-    
+
     #[Route('/new', name: '_new', methods: ['POST'])]
-    public function new(Request $request, EntityManagerInterface $em,
-        FileUploader $fileUploader): Response
-    {
+    public function new(
+        Request $request,
+        EntityManagerInterface $em,
+        FileUploader $fileUploader
+    ): Response {
         $post = new Post();
         $form = $this->createForm(PostType::class, $post);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $post->setAuthor($this->getUser()->getActivePet());
+            /** @var User $user */
+            $user = $this->getUser();
+            $post->setAuthor($user->getActivePet());
 
             $imageFiles = $form->get('imageFiles')->getData();
             if ($imageFiles) {
@@ -50,12 +55,12 @@ class PostController extends AbstractController
 
             if (TurboBundle::STREAM_FORMAT === $request->getPreferredFormat()) {
                 $request->setRequestFormat(TurboBundle::STREAM_FORMAT);
-                return $this->renderBlock('post/_create_success.stream.html.twig','new_post', [
+                return $this->renderBlock('post/_create_success.stream.html.twig', 'new_post', [
                     'post' => $post,
                     'form' => $this->createForm(PostType::class)
                 ]);
             }
-            
+
             return $this->redirectToRoute('app_home');
         }
 
@@ -64,7 +69,7 @@ class PostController extends AbstractController
         ], new Response(422));
     }
 
-    
+
     #[Route('/{id}', name: '_delete', methods: ['DELETE'])]
     public function delete(EntityManagerInterface $em, Post $post, Request $request): Response
     {
@@ -73,7 +78,7 @@ class PostController extends AbstractController
             return new JsonResponse(['error' => 'Forbidden'], Response::HTTP_FORBIDDEN);
         }
 
-        $postId = $post->getId(); 
+        $postId = $post->getId();
         $em->remove($post);
         $em->flush();
 
