@@ -1,5 +1,5 @@
 {% block post_card %}
-		<div id="post-card-{{ post.id }}" class="max-w-150 mx-auto p-0 mb-4 bg-white dark:bg-[#1c2733] rounded-xl shadow-sm border border-gray-200 dark:border-gray-800 overflow-hidden"> <div class="p-4 flex items-center justify-between">
+		<div id="post-card-{{ post.id }}" class="max-w-150 p-0 mb-4 bg-white dark:bg-[#1c2733] rounded-xl shadow-sm border border-gray-200 dark:border-gray-800 overflow-hidden"> <div class="p-4 flex items-center justify-between">
 			<div class="flex items-center gap-3">
 				<a href="{{ path('app_member_profile', {'id': post.author.id}) }}" class="h-10 w-10 rounded-full bg-center bg-no-repeat bg-cover" data-alt="Alex Johnson profile picture" {% if post.author.profilePictureFileName %} style=" background-image: url(&quot;{{ asset('uploads/pets/' ~ post.author.profilePictureFileName) }}&quot;);" {% else %} style=" background-image: url(&quot;{{ asset('assets/images/default-pet.png') }}&quot;);" {% endif %} style=" background-image: url(&quot;{{ asset('uploads/pets/' ~ post.author.profilePictureFileName) }}&quot;);"></a>
 				<div>
