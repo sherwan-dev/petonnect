@@ -33,7 +33,7 @@ class PostController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $post->setAuthor($this->getUser()->getPets()->first());//TODO: Handle active pet
+            $post->setAuthor($this->getUser()->getActivePet());
 
             $imageFiles = $form->get('imageFiles')->getData();
             if ($imageFiles) {

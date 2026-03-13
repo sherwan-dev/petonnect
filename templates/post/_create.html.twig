@@ -1,5 +1,5 @@
 {% block new_post %}
-	{% set pet = app.user.pets.first %}
+	{% set pet = app.user.activePet %}
 	<div class="w-full max-w-150 mx-auto py-4" id="create-post-form-container">
 		{{ form_start(form, {'action': path('app_post_new'), 'attr': {'class': 'bg-(--white) rounded-xl shadow-sm border border-gray-200 p-[calc(var(--spacing-unit)*2)]'}}) }}
 		<div class="pb-4 flex items-center justify-between">
