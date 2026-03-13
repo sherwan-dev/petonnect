@@ -10,6 +10,7 @@ use App\Entity\Pet;
 use Symfony\Component\Security\Http\Attribute\CurrentUser;
 use App\Repository\PetRepository;
 use App\Repository\PetFollowRepository;
+use App\Repository\PostRepository;
 
 class MemberController extends AbstractController
 {
@@ -61,7 +62,8 @@ class MemberController extends AbstractController
         #[CurrentUser] ?User $user,
         Pet $pet,
         PetRepository $petRepository,
-        PetFollowRepository $petFollowRepository
+        PetFollowRepository $petFollowRepository,
+        PostRepository $postRepository
     ): Response {
 
         $isFollowing = false;
@@ -78,10 +80,13 @@ class MemberController extends AbstractController
             $isFollowing = $follow !== null;
         }
 
+        $posts = $postRepository->findBy(['author' => $pet], ['createdAt' => 'DESC']);
+
         return $this->render('member/one_member/index.html.twig', [
             'pet' => $pet,
             'isFollowing' => $isFollowing,
-            'activePet' => $activePet
+            'activePet' => $activePet,
+            'posts' => $posts
         ]);
     }
 
